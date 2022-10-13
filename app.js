@@ -8,6 +8,9 @@ import * as urlParser from "url";
 // app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(cors());
 app.use(express.json());
+app.get("/api/v1", async (req, res) => {
+    res.send({message: "Hello World!"});
+})
 app.post("/api/v1/getDead", async (req, res) => {
   res.send({ string: postcodeString.slice(0, postcodeString.length - 1) });
 });
