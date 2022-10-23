@@ -116,7 +116,7 @@ const crawl = async (url) => {
     const crawlAll = async () => {
          return await crawl(url).then(() => {
             console.log('CRAWL FINISHED')
-            return foundTargetLinks
+            return Object.entries(foundTargetLinks).map(([key, value]) => ({ url: key, links: value }));
         })
     }
 
