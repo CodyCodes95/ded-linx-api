@@ -71,6 +71,7 @@ app.post("/api/v1/getDead", async (req, res) => {
     console.log(result)
     res.status(200).json({ foundOldLinks: result })
 })
+
 app.post("/api/v1/findTarget", async (req, res) => {
   const url = req.body.searchUrl
 
@@ -90,9 +91,8 @@ const getUrl = (link) => {
 const seenUrls = {}
 const foundTargetLinks = {}
 let crawlCount = 0
-// let pageFinished
-const crawl = async (url) => {
-    // pageFinished = false
+    const crawl = async (url) => {
+    console.log(seenUrls)
     console.log(`Crawling ${url}`)
     seenUrls[url] = true
     crawlCount ++
@@ -101,6 +101,9 @@ const crawl = async (url) => {
     const $ = cheerio.load(html)
     const links = $("a").map((i, link) => link.attribs.href).get()
     const { host } = urlParser.parse(url) 
+    console.log(`host ${host}`)
+    console.log(`links ${links}`)
+    console.log(`url ${url}`)
     
     for (const link of links.filter(link => link.includes(host))) {
         if (targetUrls.some((website) => link.toLowerCase().includes(website.toLowerCase()))) {
