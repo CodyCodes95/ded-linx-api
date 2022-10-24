@@ -93,7 +93,8 @@ const seenUrls = {}
 const foundTargetLinks = {}
 let crawlCount = 0
     const crawl = async (url) => {
-    console.log(`Crawling ${url}`)
+        console.log(`Crawling ${url}`)
+        console.log(seenUrls)
     seenUrls[url] = true
     crawlCount ++
     const res = await fetch(url)
@@ -174,5 +175,52 @@ const crawl = async (url) => {
     const result = await crawlAll()
     res.status(200).json(result)
 })
+
+app.post("/api/v1/countPages", async (req, res) => {
+
+  const url = req.body.searchUrl;
+
+
+  const getUrl = (link) => {
+    if (link.includes("http")) {
+      return link;
+    } else if (link.startsWith("/")) {
+      console.log(`${url}/${link}`);
+      return `${url}/${link}`;
+    } else {
+      return `${url}/${link}`;
+    }
+  };
+
+  const seenUrls = {};
+  const crawlCount = 0;
+  const crawl = async (url) => {
+    seenUrls[url] = true;
+    crawlCount++;
+    const res = await fetch(url);
+    const html = await res.text();
+    const $ = cheerio.load(html);
+    const links = $("a")
+      .map((i, link) => link.attribs.href)
+      .get();
+    const { host } = urlParser.parse(url);
+
+    for (const link of links.filter((link) => getUrl(link).includes(host))) {
+      if (getUrl(link).includes(url) && !seenUrls[getUrl(link)]) {
+        await crawl(getUrl(link));
+      }
+    }
+  };
+
+  const crawlAll = async () => {
+    return await crawl(url).then(() => {
+      console.log("CRAWL FINISHED");
+      return crawlCount;
+    });
+  };
+
+  const result = await crawlAll();
+  res.status(200).json({count: result});
+});
 
 module.exports = app;
