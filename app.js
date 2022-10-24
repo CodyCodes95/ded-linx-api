@@ -183,7 +183,6 @@ app.post("/api/v1/countPages", async (req, res) => {
     if (link.includes("http")) {
       return link;
     } else if (link.startsWith("/")) {
-      console.log(`${url}/${link}`);
       return `${url}/${link}`;
     } else {
       return `${url}/${link}`;
@@ -217,7 +216,8 @@ app.post("/api/v1/countPages", async (req, res) => {
     });
   };
 
-  const result = await crawlAll();
+    const result = await crawlAll();
+    console.log(result)
   res.status(200).json({count: result});
 });
 
