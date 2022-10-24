@@ -4,8 +4,6 @@ const cors = require("cors");
 const fetch = require("node-fetch");
 const cheerio = require("cheerio");
 const urlParser = require("url")
-// app.use(express.json({ limit: "50mb" }));
-// app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(cors());
 app.use(express.json());
 app.get("/api/v1", async (req, res) => {
@@ -193,7 +191,7 @@ app.post("/api/v1/countPages", async (req, res) => {
   };
 
   const seenUrls = {};
-  const crawlCount = 0;
+  let crawlCount = 0;
   const crawl = async (url) => {
     seenUrls[url] = true;
     crawlCount++;
