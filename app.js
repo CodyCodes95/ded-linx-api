@@ -183,7 +183,7 @@ app.post("/api/v1/countPages", async (req, res) => {
     if (link.includes("http")) {
       return link;
     } else if (link.startsWith("/")) {
-      return `${url}/${link}`;
+      return `${url}${link}`;
     } else {
       return `${url}/${link}`;
     }
