@@ -78,7 +78,6 @@ app.post("/api/v1/findTarget", async (req, res) => {
     const targetUrls = req.body.targetUrls
 
     const getUrl = (link) => {
-    console.log(link)
     if (link.includes('http')) {
         return link
     } else if (link.startsWith('/')) {
