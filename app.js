@@ -110,7 +110,7 @@ let crawlCount = 0
             console.log(`Found Link: ${link} found on URL ${url}`);
             foundTargetLinks[url] = foundTargetLinks[url] ? [...foundTargetLinks[url], link] : [link]
         }
-        if (link.includes(url) && !seenUrls[getUrl(link)]) {
+        if (getUrl(link).includes(url) && !seenUrls[getUrl(link)]) {
             await crawl(getUrl(link))
         }
     }
