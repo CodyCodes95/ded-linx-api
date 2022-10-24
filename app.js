@@ -82,6 +82,7 @@ const getUrl = (link) => {
         return link
     } else if (link.startsWith('/')) {
         // console.log(`SHOURTCUT ${link}` )
+         console.log(`${url}/${link}`);
         return `${url}/${link}`
     } else {
         return `${url}/${link}`
@@ -92,7 +93,6 @@ const seenUrls = {}
 const foundTargetLinks = {}
 let crawlCount = 0
     const crawl = async (url) => {
-    console.log(seenUrls)
     console.log(`Crawling ${url}`)
     seenUrls[url] = true
     crawlCount ++
@@ -101,9 +101,6 @@ let crawlCount = 0
     const $ = cheerio.load(html)
     const links = $("a").map((i, link) => link.attribs.href).get()
     const { host } = urlParser.parse(url) 
-    console.log(`host ${host}`)
-    console.log(`links ${links}`)
-    console.log(`url ${url}`)
     
     for (const link of links.filter(link => link.includes(host))) {
         if (targetUrls.some((website) => link.toLowerCase().includes(website.toLowerCase()))) {
@@ -136,6 +133,7 @@ const getUrl = (link) => {
     if (link.includes('http')) {
         return link
     } else if (link.startsWith('/')) {
+        console.log(`${url}/${link}`);
         return `${url}/${link}`
     } else {
         return `${url}/${link}`
