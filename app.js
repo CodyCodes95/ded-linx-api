@@ -77,7 +77,8 @@ app.post("/api/v1/findTarget", async (req, res) => {
 
     const targetUrls = req.body.targetUrls
 
-const getUrl = (link) => {
+    const getUrl = (link) => {
+    console.log(link)
     if (link.includes('http')) {
         return link
     } else if (link.startsWith('/')) {
@@ -102,7 +103,7 @@ let crawlCount = 0
     const links = $("a").map((i, link) => link.attribs.href).get()
     const { host } = urlParser.parse(url) 
     
-    for (const link of links.filter(link => link.includes(host))) {
+    for (const link of links.filter(link => getUrl(link).includes(host))) {
         if (targetUrls.some((website) => link.toLowerCase().includes(website.toLowerCase()))) {
             console.log(`Found Link: ${link} found on URL ${url}`);
             foundTargetLinks[url] = foundTargetLinks[url] ? [...foundTargetLinks[url], link] : [link]
