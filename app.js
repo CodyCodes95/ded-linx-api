@@ -19,7 +19,7 @@ app.post("/api/v1/getDead", async (req, res) => {
             return link
         } else if (link.startsWith('/')) {
             // console.log(`SHOURTCUT ${link}` )
-            return `${url}/${link}`
+            return `${url}${link}`
         } else {
             return `${url}/${link}`
         }
